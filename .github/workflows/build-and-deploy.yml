@@ -13,7 +13,7 @@ env:
   KUBERNETES_CLUSTER: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_KUBERNETES_CLUSTER || vars.STAGING_KUBERNETES_CLUSTER }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
   KUBERNETES_NAMESPACE: apps
-  KUBERNETES_REPLICA_COUNT: ${{ github.ref == 'refs/heads/master' && 4 || 2 }}  
+  KUBERNETES_REPLICA_COUNT: ${{ github.ref == 'refs/heads/master' && 3 || 2 }}  
   KUBERNETES_REPLICA_MIN_COUNT: ${{ github.ref == 'refs/heads/master' && 3 || 2 }}  
   KUBERNETES_REPLICA_MAX_COUNT: ${{ github.ref == 'refs/heads/master' && 6 || 3 }}  
   KUBERNETES_MEMORY_REQUEST: 1024Mi
