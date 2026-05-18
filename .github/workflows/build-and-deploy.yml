@@ -13,7 +13,7 @@ env:
   KUBERNETES_CLUSTER: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_KUBERNETES_CLUSTER || vars.STAGING_KUBERNETES_CLUSTER }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
   KUBERNETES_NAMESPACE: apps
-  KUBERNETES_REPLICA_COUNT: ${{ github.ref == 'refs/heads/master' && 2 || 2 }}  
+  KUBERNETES_REPLICA_COUNT: ${{ github.ref == 'refs/heads/master' && 3 || 2 }}  
   KUBERNETES_REPLICA_MIN_COUNT: ${{ github.ref == 'refs/heads/master' && 2 || 2 }}  
   KUBERNETES_REPLICA_MAX_COUNT: ${{ github.ref == 'refs/heads/master' && 6 || 3 }}  
   KUBERNETES_MEMORY_REQUEST: 512Mi
@@ -48,6 +48,8 @@ jobs:
           Get-Content .kubernetes/clamav-service-monitor.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/clamav-service-monitor.tmp.yaml;
 
           #kubectl apply -f clamav-service-monitor.tmp.yaml || exit 4
+          #kubectl scale statefulsets $env:APP_NAME --replicas=$env:KUBERNETES_REPLICA_COUNT -n $env:KUBERNETES_NAMESPACE || exit 5
+          #kubectl rollout restart statefulset $env:APP_NAME -n $env:KUBERNETES_NAMESPACE || exit 6
 
           $command = @"
               set -eu
@@ -56,9 +58,6 @@ jobs:
               helm repo update || exit 2
 
               helm upgrade $env:APP_NAME wiremind/clamav --install --namespace $env:KUBERNETES_NAMESPACE --version $env:CHART_VERSION -f clamav-values.tmp.yaml || exit 3
-
-              kubectl scale statefulsets $env:APP_NAME --replicas=$env:KUBERNETES_REPLICA_COUNT -n $env:KUBERNETES_NAMESPACE || exit 5
-              kubectl rollout restart statefulset $env:APP_NAME -n $env:KUBERNETES_NAMESPACE || exit 6
           "@;
 
           $result = az aks command invoke `
