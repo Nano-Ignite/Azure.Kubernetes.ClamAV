@@ -65,7 +65,7 @@ jobs:
           "@;
 
           $result = az aks command invoke `
-              -g $env:AZURE_GROUP `
+              -g $env:AZURE_GROUP_KUBERNETES `
               -n $env:KUBERNETES_CLUSTER `
               --file .kubernetes/clamav-values.tmp.yaml `
               --file .kubernetes/clamav-service-monitor.tmp.yaml `
