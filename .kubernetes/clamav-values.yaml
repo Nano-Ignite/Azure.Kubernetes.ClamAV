@@ -78,6 +78,14 @@ hpa:
   cpu: %KUBERNETES_CPU_UTILIZATION%
   memory: %KUBERNETES_MEMORY_UTILIZATION%
 
+extraVolumes:
+  - name: tmp-dir
+    emptyDir: {}
+
+extraVolumeMounts:
+  - name: tmp-dir
+    mountPath: /tmp
+
 metrics:
   enabled: true
   image:
