@@ -81,6 +81,7 @@ jobs:
           echo $missingPorts;
 
           if ($missingPorts.Count -gt 0) {
+              echo "BBBB"
               $mergedPorts = ($current + $missingPorts) | Select-Object -Unique;
               $mergedPortsJson = $mergedPorts | ConvertTo-Json -Compress;
 
