@@ -77,7 +77,10 @@ jobs:
           $ports = @("3310","9906");
           $missingPorts = $ports | Where-Object { $currentPorts -notcontains $_ };
 
-          if ($missing.Count -gt 0) {
+          echo "AAA";
+          echo $missingPorts;
+
+          if ($missingPorts.Count -gt 0) {
               $mergedPorts = ($current + $missingPorts) | Select-Object -Unique;
               $mergedPortsJson = $mergedPorts | ConvertTo-Json -Compress;
 
