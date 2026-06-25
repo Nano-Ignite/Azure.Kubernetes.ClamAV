@@ -27,8 +27,6 @@ securityContext:
 serviceAccount:
   automountServiceAccountToken: false
 
-automountServiceAccountToken: false
-
 resources:
   requests:
     cpu: %KUBERNETES_CPU_REQUEST%
